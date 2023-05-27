@@ -3,6 +3,7 @@ import { Button, StyleSheet, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useRef, useState } from "react";
 import * as ImageManipulator from "expo-image-manipulator";
+import { styles } from "../styles";
 
 export default function CameraComponent() {
   const [capturing, setCapturing] = useState(false);
@@ -70,23 +71,3 @@ export default function CameraComponent() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "white",
-  },
-  camera: {
-    width: "100%",
-    height: "70%",
-  },
-  button: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
-});
