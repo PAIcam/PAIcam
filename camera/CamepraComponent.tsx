@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import * as ImageManipulator from "expo-image-manipulator";
 
 export default function CameraComponent() {
@@ -34,7 +34,7 @@ export default function CameraComponent() {
             },
           },
         ],
-        { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
       );
 
       console.log(result);
@@ -66,7 +66,6 @@ export default function CameraComponent() {
           onPress={capturing ? stopCapture : startCapture}
         />
       </View>
-
       <StatusBar style="auto" />
     </View>
   );
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     width: "100%",
-    height: "100%",
+    height: "70%",
   },
   button: {
     position: "absolute",
