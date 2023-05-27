@@ -1,4 +1,4 @@
-import CameraComponent from "./camera/CamepraComponent";
+import CameraComponent from "./camera/CameraComponent";
 
 export default function App() {
 

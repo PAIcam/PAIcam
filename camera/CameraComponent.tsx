@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Modal, StyleSheet, View } from "react-native";
+import { Button, Modal, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useRef, useState } from "react";
 import * as ImageManipulator from "expo-image-manipulator";
 import ModalComponent from '../components/Modal';
 import { styles } from "../styles";
+import { saveImage } from "../utils/saveImage";
 
 export default function CameraComponent() {
   const [capturing, setCapturing] = useState(false);
@@ -20,8 +21,8 @@ export default function CameraComponent() {
     requestPermission();
     return <View />;
   }
-
-  const poi = { x: 100, y: 100, width: 100, height: 100 };
+  
+  const poi = { x: 500, y: 500, width: 250, height: 250 };
 
   const handleCapture = async () => {
     if (cameraRef.current) {
@@ -44,6 +45,9 @@ export default function CameraComponent() {
       );
 
       console.log(result);
+     
+      saveImage(result.uri);
+      
     }
   };
 
