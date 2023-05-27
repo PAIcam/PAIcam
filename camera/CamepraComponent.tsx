@@ -1,9 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { Camera, CameraType } from 'expo-camera';
-import { useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import * as ImageManipulator from 'expo-image-manipulator';
-import { styles } from '../styles';
+import { Button, StyleSheet, Text, View } from "react-native";
+import { Camera, CameraType } from "expo-camera";
+import { useEffect, useRef, useState } from "react";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export default function CameraComponent() {
   const [capturing, setCapturing] = useState(false);
@@ -11,19 +10,9 @@ export default function CameraComponent() {
   const cameraRef = useRef<Camera | null>(null);
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
 
-  if (!permission) {
-    // Camera permissions are still loading
+  if (!permission || !permission.granted) {
+    requestPermission();
     return <View />;
-  }
-
-  if (!permission.granted) {
-    // Camera permissions are not granted yet
-    return (
-      <View style={styles.cameraContainer}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    );
   }
 
   const poi = { x: 100, y: 100, width: 100, height: 100 };
@@ -65,7 +54,7 @@ export default function CameraComponent() {
   };
 
   return (
-    <View style={styles.cameraContainer}>
+    <View style={styles.container}>
       <Camera
         style={styles.camera}
         type={CameraType.back}
@@ -82,3 +71,23 @@ export default function CameraComponent() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    color: "white",
+  },
+  camera: {
+    width: "100%",
+    height: "100%",
+  },
+  button: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+  },
+});
