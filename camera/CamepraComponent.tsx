@@ -11,6 +11,8 @@ export default function CameraComponent() {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef<Camera | null>(null);
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
+  const [timeLapseDurationInSeconds, setTimeLapseDurationInSeconds] = useState(5);
+  const [timeStepInSeconds, setTimeStepInSeconds ] = useState(1);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -47,7 +49,14 @@ export default function CameraComponent() {
 
   const startCapture = () => {
     setCapturing(true);
-    captureIntervalRef.current = setInterval(handleCapture, 1000);
+    let counter = 0;
+    captureIntervalRef.current = setInterval(() => {
+      handleCapture();
+      counter = counter + timeStepInSeconds;
+      if (counter >= timeLapseDurationInSeconds) {
+        stopCapture();
+      }
+    }, timeStepInSeconds * 1000);  
   };
 
   const stopCapture = () => {
@@ -80,7 +89,9 @@ export default function CameraComponent() {
         onRequestClose={() => setModalVisible(!modalVisible)}
       >
         <ModalComponent 
-          setModalVisible={setModalVisible} modalVisible={modalVisible}
+          setVisible={setModalVisible} visible={modalVisible}
+          setTimeLapseDurationInSeconds={setTimeLapseDurationInSeconds}
+          setTimeStepInSeconds={setTimeStepInSeconds}
         />
       </Modal>
 

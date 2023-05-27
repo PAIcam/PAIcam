@@ -1,22 +1,35 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "../styles";
 
 interface modalProps {
-    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
-    modalVisible: boolean,
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>,
+    visible: boolean,
+    setTimeLapseDurationInSeconds: React.Dispatch<React.SetStateAction<number>>,
+    setTimeStepInSeconds: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export default function ModalComponent(props: modalProps) {
-    const setModalVisible = props.setModalVisible;
-    const modalVisible = props.modalVisible;
+    const setVisible = props.setVisible;
+    const visible = props.visible;
+    const setTimeLapseDurationInSeconds = props.setTimeLapseDurationInSeconds;
+    const setTimeStepInSeconds = props.setTimeStepInSeconds;
 
   return <View style={styles.centeredView}>
     <View style={styles.modalView}>
       <Text style={styles.modalText}>Hello World!</Text>
-
+      <Text>Time Lapse Duration:</Text>
+      <TextInput 
+        onChangeText={(text) => setTimeLapseDurationInSeconds(parseInt(text))}
+        keyboardType="numeric"
+      />
+      <Text>Time Step:</Text>
+      <TextInput 
+        onChangeText={(text) => setTimeStepInSeconds(parseInt(text))}
+        keyboardType="numeric"
+      />
       <TouchableOpacity
         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => setVisible(!visible)}
       >
         <Text style={styles.textStyle}>Hide Modal</Text>
       </TouchableOpacity>
