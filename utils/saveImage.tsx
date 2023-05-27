@@ -13,7 +13,6 @@ export async function saveImage(fileUri: string) {
     
     try {
       const album = await MediaLibrary.getAlbumAsync('polinators');
-      asset.filename = new Date().toDateString + '.jpg';
       if (album == null) {
         await MediaLibrary.createAlbumAsync('polinators', asset, true);
       } else {
