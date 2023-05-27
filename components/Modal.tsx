@@ -16,7 +16,7 @@ export default function ModalComponent(props: modalProps) {
 
   return <View style={styles.centeredView}>
     <View style={styles.modalView}>
-      <Text style={styles.modalText}>Hello World!</Text>
+      <Text style={styles.modalText}>Settings:</Text>
       <Text>Time Lapse Duration:</Text>
       <TextInput 
         onChangeText={(text) => setTimeLapseDurationInSeconds(parseInt(text))}
