@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, View } from "react-native";
+import { Button, Modal, StyleSheet, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useRef, useState } from "react";
 import * as ImageManipulator from "expo-image-manipulator";
+import ModalComponent from '../components/Modal';
 import { styles } from "../styles";
 
 export default function CameraComponent() {
@@ -10,6 +11,8 @@ export default function CameraComponent() {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef<Camera | null>(null);
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   if (!permission || !permission.granted) {
     requestPermission();
@@ -66,7 +69,21 @@ export default function CameraComponent() {
           title={capturing ? "Stop Capture" : "Start Capture"}
           onPress={capturing ? stopCapture : startCapture}
         />
+        <Button
+          title={"Open Settings"}
+          onPress={() => setModalVisible(true)}
+        />
       </View>
+
+      <Modal 
+        animationType="slide" transparent={true} visible={modalVisible} 
+        onRequestClose={() => setModalVisible(!modalVisible)}
+      >
+        <ModalComponent 
+          setModalVisible={setModalVisible} modalVisible={modalVisible}
+        />
+      </Modal>
+
       <StatusBar style="auto" />
     </View>
   );
