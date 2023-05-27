@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Modal, View } from "react-native";
+import { Text , Button, Modal, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as ImageManipulator from "expo-image-manipulator";
 import ModalComponent from '../components/Modal';
 import { styles } from "../styles";
 import { saveImage } from "../utils/saveImage";
+import { Countdown } from "../components/Countdown";
 
 export default function CameraComponent() {
   const [capturing, setCapturing] = useState(false);
@@ -14,7 +15,8 @@ export default function CameraComponent() {
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
   const [timeLapseDurationInSeconds, setTimeLapseDurationInSeconds] = useState(5);
   const [timeStepInSeconds, setTimeStepInSeconds ] = useState(1);
-
+  const [remainingTime, setRemainingTime] = useState(0)
+  
   const [modalVisible, setModalVisible] = useState(false);
 
   if (!permission || !permission.granted) {
@@ -56,6 +58,7 @@ export default function CameraComponent() {
     let counter = 0;
     captureIntervalRef.current = setInterval(() => {
       handleCapture();
+      // handleRemainingTime(remainingTime);
       counter = counter + timeStepInSeconds;
       if (counter >= timeLapseDurationInSeconds) {
         stopCapture();
@@ -68,10 +71,24 @@ export default function CameraComponent() {
       clearInterval(captureIntervalRef.current);
       setCapturing(false);
     }
+    // if(countdownIntervalRef.current){
+    //   clearInterval(countdownIntervalRef.current);
+    // }
   };
+
+  // const handleRemainingTime = (time: number)=>{
+  //   let countdown = time
+  //   countdownIntervalRef.current = setInterval(()=>{
+  //     setRemainingTime(countdown)
+  //     countdown = countdown-1
+  //   }, 1000)
+    
+  // }
 
   return (
     <View style={styles.container}>
+      <Text >Duration: {timeLapseDurationInSeconds}s Timestep: {timeStepInSeconds}s</Text>
+     {capturing && <Countdown time={remainingTime} capturing={capturing}/>}
       <Camera
         style={styles.camera}
         type={CameraType.back}
@@ -96,6 +113,7 @@ export default function CameraComponent() {
           setVisible={setModalVisible} visible={modalVisible}
           setTimeLapseDurationInSeconds={setTimeLapseDurationInSeconds}
           setTimeStepInSeconds={setTimeStepInSeconds}
+          setRemainingTime={setRemainingTime}
         />
       </Modal>
 

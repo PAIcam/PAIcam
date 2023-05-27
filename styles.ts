@@ -3,12 +3,22 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    paddingTop: 40,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   text: {
     color: "white",
+  },
+  counter: {
+    paddingTop: 50,
+    position: "absolute",
+    zIndex: 1000,
+    flex: 1,
+    top: 0,
+    color: "white",
+    fontWeight: "bold"
   },
   camera: {
     width: "100%",
