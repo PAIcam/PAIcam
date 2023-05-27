@@ -25,9 +25,13 @@ export default function CameraComponent() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }
 
+  function takePicture() {
+    //Camera.takePictureAsync({});
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+      <TouchableOpacity style={styles.button} onPress={takePicture}>
         <Camera style={styles.camera} type={type}>
           <View style={styles.buttonContainer}>
             <Text style={styles.text}>Flip Camera</Text>
